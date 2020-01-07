@@ -48,6 +48,7 @@ func main() {
 	if err := store.Init(config.Store); err != nil {
 		logger.Fatal(err)
 	}
+
 	defer store.Close()
 
 	runServer(config.getListenAddress(), store)

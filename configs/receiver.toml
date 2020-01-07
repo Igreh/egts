@@ -3,25 +3,25 @@ host = "0.0.0.0"
 port = "6000"
 con_live_sec = 10
 
-#[store]
-#plugin = "./build/bin/plugins/mysql.so"
-#host = "127.0.0.1"
-#port = "3306"
-#user = "igorek"
-#password = "1"
-#database = "glonas"
-#table = "points"
-#sslmode = "disable"
-
 [store]
-plugin = "./build/bin/plugins/postgresql.so"
-host = "localhost"
-port = "5432"
+plugin = "./build/bin/plugins/mysql.so"
+host = "127.0.0.1"
+port = "3306"
 user = "igorek"
-password = "guest"
+password = "1"
 database = "glonas"
 table = "points"
 sslmode = "disable"
+
+#[store]
+#plugin = "./build/bin/plugins/postgresql.so"
+#host = "localhost"
+#port = "5432"
+#user = "igorek"
+#password = "guest"
+#database = "glonas"
+#table = "points"
+#sslmode = "disable"
 
 # [store]
 # plugin = "rabbitmq.so"

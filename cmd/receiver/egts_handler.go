@@ -22,6 +22,7 @@ func handleRecvPkg(conn net.Conn, store Connector) {
 		serviceType       uint8
 		srResponsesRecord egts.RecordDataSet
 		recvPacket        []byte
+		session_id        int64
 	)
 
 	if store == nil {
@@ -128,6 +129,10 @@ func handleRecvPkg(conn net.Conn, store Connector) {
 				for _, subRec := range rec.RecordDataSet {
 					switch subRecData := subRec.SubrecordData.(type) {
 					case *egts.SrTermIdentity:
+						logger.Debugf("IMEI: %s", subRecData.IMEI)
+						session_id = store.InitSession(subRecData.IMEI)
+						logger.Debugf("session_id: %d", session_id)
+
 						logger.Debugf("Разбор подзаписи EGTS_SR_TERM_IDENTITY")
 						if srResultCodePkg, err = createSrResultCode(&pkg, egtsPcOk); err != nil {
 							logger.Errorf("Ошибка сборки EGTS_SR_RESULT_CODE: %v", err)
@@ -227,7 +232,7 @@ func handleRecvPkg(conn net.Conn, store Connector) {
 				}
 
 				if isPkgSave {
-					if err := store.Save(&exportPacket); err != nil {
+					if err := store.Save(&exportPacket, session_id); err != nil {
 						logger.Error(err)
 					}
 				}

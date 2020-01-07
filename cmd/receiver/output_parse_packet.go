@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 
-	"github.com/satori/go.uuid"
+	uuid "github.com/satori/go.uuid"
 )
 
 type egtsParsePacket struct {

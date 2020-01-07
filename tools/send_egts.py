@@ -27,6 +27,6 @@ if __name__ == '__main__':
 
             rec_package = client.recv(BUFF)
             print("received: {}".format(rec_package.hex()))
-            sleep(12)
+            sleep(1)
 
     client.close()
