@@ -95,10 +95,10 @@ func (c *PostgreSQLConnector) Save(msg interface{ ToBytes() ([]byte, error) }, s
 
 	s = fmt.Sprintf("POINT(%f %f)", p.Latitude, p.Longitude)
 
-	insertQuery := fmt.Sprintf("INSERT INTO points (coords, session_id, json, created) VALUES (PointFromText(?), ?, ?, now())")
+	insertQuery := fmt.Sprintf("INSERT INTO points (coords, session_id, json, created, navigation_ts, speed) VALUES (PointFromText(?), ?, ?, from_unixtime(?), from_unixtime(?), ?)")
 	// insertQuery := fmt.Sprintf("INSERT INTO points (coords, session_id, created) VALUES (PointFromText('POINT(49.2343503980067 2.52738212494082)'), ?, now())")
 
-	if _, err = c.connection.Exec(insertQuery, s, s_id, innerPkg); err != nil {
+	if _, err = c.connection.Exec(insertQuery, s, s_id, innerPkg, p.ReceivedTimestamp, p.NavigationTimestamp, p.Speed); err != nil {
 		// if _, err = c.connection.Exec(insertQuery, session_id); err != nil {
 		return fmt.Errorf("Не удалось вставить запись: %v", err)
 	}
